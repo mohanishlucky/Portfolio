@@ -49,7 +49,7 @@ export const Footer = () => {
               <Linkedin className="h-5 w-5" />
             </a>
             <a
-              href="mailto:mohanish.gunda@gmail.com"
+              href="mailto:mohanishgunda@gmail.com"
               className="p-3 rounded-xl bg-secondary text-muted-foreground hover:text-foreground hover:bg-primary/10 transition-colors"
             >
               <Mail className="h-5 w-5" />
