@@ -1,5 +1,5 @@
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 
 interface AnimatedCounterProps {
   value: number;
@@ -75,5 +75,3 @@ const Counter = ({
 
   return <>{count}</>;
 };
-
-import { useState, useEffect } from "react";
