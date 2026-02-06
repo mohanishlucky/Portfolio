@@ -26,8 +26,8 @@ const socialLinks = [
   {
     name: "Email",
     icon: Mail,
-    href: "https://mail.google.com/mail/u/0/#inbox",
-    label: "mohanishgunda@gmail.com",
+    href: "mailto:mohanish.gunda@gmail.com",
+    label: "mohanish.gunda@gmail.com",
     color: "hover:border-red-500/50 hover:text-red-500",
   },
   {
@@ -59,47 +59,18 @@ export const Contact = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!formData.name || !formData.email || !formData.message) {
-      toast({
-        title: "Error",
-        description: "Please fill in all fields.",
-        variant: "destructive",
-      });
-      return;
-    }
-
     setIsSubmitting(true);
 
-    try {
-      // Create email subject and body
-      const subject = `New Message from ${formData.name}`;
-      const emailBody = `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`;
+    // Simulate form submission
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      // Open the default email client with pre-filled content
-      const mailtoLink = `mailto:mohanishgunda@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
-      window.location.href = mailtoLink;
+    toast({
+      title: "Message sent! 🎉",
+      description: "Thank you for reaching out. I'll get back to you soon!",
+    });
 
-      // Show success message
-      toast({
-        title: "Opening email client... 🎉",
-        description: "Your email client will open with your message details. Please send it to complete.",
-      });
-
-      // Clear form after a short delay
-      setTimeout(() => {
-        setFormData({ name: "", email: "", message: "" });
-        setIsSubmitting(false);
-      }, 500);
-    } catch (error) {
-      console.error("Error preparing email:", error);
-      toast({
-        title: "Error",
-        description: "Failed to open email client. Please try again.",
-        variant: "destructive",
-      });
-      setIsSubmitting(false);
-    }
+    setFormData({ name: "", email: "", message: "" });
+    setIsSubmitting(false);
   };
 
   return (
@@ -175,9 +146,8 @@ export const Contact = () => {
                 <motion.a
                   key={link.name}
                   href={link.href}
-                  {...(link.href && link.href.startsWith?.("mailto:")
-                    ? { onClick: (e: React.MouseEvent) => { e.preventDefault(); window.location.href = link.href; } }
-                    : { target: "_blank", rel: "noopener noreferrer" })}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   initial={{ opacity: 0, x: -20 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ duration: 0.4, delay: 0.4 + index * 0.1 }}
