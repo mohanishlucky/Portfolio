@@ -1,22 +1,10 @@
 import { Moon, Sun } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, forwardRef } from "react";
 import { Button } from "./button";
 import { motion } from "framer-motion";
 
-export const ThemeToggle = () => {
+export const ThemeToggle = forwardRef<HTMLButtonElement>((props, ref) => {
   const [isDark, setIsDark] = useState(false);
-
-  useEffect(() => {
-    const isDarkMode = document.documentElement.classList.contains("dark");
-    setIsDark(isDarkMode);
-  }, []);
-
-  const toggleTheme = () => {
-    const newIsDark = !isDark;
-    setIsDark(newIsDark);
-    document.documentElement.classList.toggle("dark", newIsDark);
-    localStorage.setItem("theme", newIsDark ? "dark" : "light");
-  };
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
@@ -26,12 +14,21 @@ export const ThemeToggle = () => {
     document.documentElement.classList.toggle("dark", shouldBeDark);
   }, []);
 
+  const toggleTheme = () => {
+    const newIsDark = !isDark;
+    setIsDark(newIsDark);
+    document.documentElement.classList.toggle("dark", newIsDark);
+    localStorage.setItem("theme", newIsDark ? "dark" : "light");
+  };
+
   return (
     <Button
+      ref={ref}
       variant="ghost"
       size="icon"
       onClick={toggleTheme}
       className="relative rounded-full"
+      {...props}
     >
       <motion.div
         initial={false}
@@ -51,4 +48,6 @@ export const ThemeToggle = () => {
       </motion.div>
     </Button>
   );
-};
+});
+
+ThemeToggle.displayName = "ThemeToggle";
