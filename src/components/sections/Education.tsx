@@ -1,12 +1,13 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { GraduationCap, Award, BookOpen } from "lucide-react";
+import { GraduationCap, Award, BookOpen, Calendar, MapPin } from "lucide-react";
 
 const education = [
   {
     degree: "B.Tech. Electronics & Communication Engineering",
     institution: "Vellore Institute of Technology - Amaravati",
+    location: "Andhra Pradesh, India",
     year: "2023 - 2027",
     score: "CGPA: 9.41",
     icon: GraduationCap,
@@ -15,6 +16,7 @@ const education = [
   {
     degree: "Senior Secondary (XII)",
     institution: "BIEAP Board",
+    location: "Andhra Pradesh, India",
     year: "2021 - 2023",
     score: "97.6%",
     icon: BookOpen,
@@ -23,6 +25,7 @@ const education = [
   {
     degree: "Secondary (X)",
     institution: "CBSE Board",
+    location: "India",
     year: "2021",
     score: "83.8%",
     icon: BookOpen,
@@ -34,17 +37,14 @@ const certifications = [
   {
     title: "Embedded System Design Internship",
     issuer: "Maven Silicon",
-    icon: Award,
   },
   {
     title: "C & Java Programming",
     issuer: "NexGen (Offline Coaching)",
-    icon: Award,
   },
   {
     title: "MERN Stack Development",
     issuer: "Apna College",
-    icon: Award,
   },
 ];
 
@@ -69,9 +69,19 @@ export const Education = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <p className="text-primary font-medium mb-3">My journey</p>
-          <h2 className="section-title mb-4">Education & Certifications</h2>
-          <div className="w-20 h-1 bg-primary/30 mx-auto rounded-full" />
+          <motion.span
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : {}}
+            className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4"
+          >
+            Background
+          </motion.span>
+          <h2 className="section-title mb-4">
+            Education & <span className="gradient-text">Certifications</span>
+          </h2>
+          <p className="section-subtitle mx-auto">
+            My academic journey and professional development
+          </p>
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-12">
@@ -82,7 +92,9 @@ export const Education = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <h3 className="text-xl font-semibold mb-8 font-display flex items-center gap-2">
-              <GraduationCap className="h-5 w-5 text-primary" />
+              <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                <GraduationCap className="h-4 w-4 text-primary" />
+              </div>
               Education
             </h3>
             <div className="relative space-y-6">
@@ -101,7 +113,7 @@ export const Education = () => {
                   <div
                     className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 z-10 ${
                       item.current
-                        ? "bg-primary text-primary-foreground"
+                        ? "bg-primary text-primary-foreground shadow-lg"
                         : "bg-card border-2 border-border"
                     }`}
                   >
@@ -109,16 +121,25 @@ export const Education = () => {
                   </div>
 
                   {/* Content */}
-                  <div className={`flex-1 pb-6 ${item.current ? "" : ""}`}>
-                    <div className="bg-card rounded-xl p-5 border border-border card-hover">
+                  <div className="flex-1 pb-6">
+                    <div className="bg-card rounded-xl p-5 border border-border hover:border-primary/30 transition-colors">
                       <div className="flex items-start justify-between gap-4 mb-2">
                         <h4 className="font-semibold">{item.degree}</h4>
-                        <span className="text-xs font-medium px-2 py-1 rounded-full bg-primary/10 text-primary whitespace-nowrap">
+                        <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-primary/10 text-primary whitespace-nowrap">
                           {item.score}
                         </span>
                       </div>
-                      <p className="text-sm text-muted-foreground mb-1">{item.institution}</p>
-                      <p className="text-xs text-muted-foreground">{item.year}</p>
+                      <p className="text-sm text-foreground mb-1">{item.institution}</p>
+                      <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                        <span className="flex items-center gap-1">
+                          <Calendar className="h-3 w-3" />
+                          {item.year}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <MapPin className="h-3 w-3" />
+                          {item.location}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </motion.div>
@@ -135,7 +156,9 @@ export const Education = () => {
               transition={{ duration: 0.6, delay: 0.3 }}
             >
               <h3 className="text-xl font-semibold mb-6 font-display flex items-center gap-2">
-                <Award className="h-5 w-5 text-primary" />
+                <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center">
+                  <Award className="h-4 w-4 text-accent" />
+                </div>
                 Certifications
               </h3>
               <div className="space-y-3">
@@ -146,10 +169,10 @@ export const Education = () => {
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.4, delay: 0.4 + index * 0.1 }}
                     whileHover={{ x: 5 }}
-                    className="flex items-center gap-4 p-4 rounded-xl bg-card border border-border card-hover"
+                    className="flex items-center gap-4 p-4 rounded-xl bg-card border border-border hover:border-accent/30 transition-colors group"
                   >
-                    <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0">
-                      <cert.icon className="h-5 w-5 text-accent" />
+                    <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                      <Award className="h-5 w-5 text-accent" />
                     </div>
                     <div>
                       <h4 className="font-medium text-sm">{cert.title}</h4>
@@ -167,7 +190,9 @@ export const Education = () => {
               transition={{ duration: 0.6, delay: 0.5 }}
             >
               <h3 className="text-xl font-semibold mb-6 font-display flex items-center gap-2">
-                <BookOpen className="h-5 w-5 text-primary" />
+                <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <BookOpen className="h-4 w-4 text-primary" />
+                </div>
                 Relevant Coursework
               </h3>
               <div className="flex flex-wrap gap-2">
@@ -178,7 +203,7 @@ export const Education = () => {
                     animate={isInView ? { opacity: 1, scale: 1 } : {}}
                     transition={{ duration: 0.3, delay: 0.6 + index * 0.05 }}
                     whileHover={{ scale: 1.05 }}
-                    className="px-4 py-2 rounded-full bg-card border border-border text-sm font-medium"
+                    className="px-4 py-2 rounded-full bg-card border border-border text-sm font-medium hover:border-primary/30 transition-colors"
                   >
                     {course}
                   </motion.span>
