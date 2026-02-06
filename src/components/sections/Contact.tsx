@@ -1,11 +1,26 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Mail, Linkedin, Github, Send, MapPin, ArrowUpRight } from "lucide-react";
+import { Mail, Linkedin, Github, Send, MapPin, ArrowUpRight, Phone, Clock } from "lucide-react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+
+const contactInfo = [
+  {
+    icon: MapPin,
+    label: "Location",
+    value: "VIT Amaravati, Andhra Pradesh",
+    href: null,
+  },
+  {
+    icon: Clock,
+    label: "Timezone",
+    value: "IST (UTC+5:30)",
+    href: null,
+  },
+];
 
 const socialLinks = [
   {
@@ -13,18 +28,21 @@ const socialLinks = [
     icon: Mail,
     href: "mailto:mohanish.gunda@gmail.com",
     label: "mohanish.gunda@gmail.com",
+    color: "hover:border-red-500/50 hover:text-red-500",
   },
   {
     name: "LinkedIn",
     icon: Linkedin,
     href: "https://linkedin.com/in/mohanish-gunda",
     label: "/in/mohanish-gunda",
+    color: "hover:border-blue-500/50 hover:text-blue-500",
   },
   {
     name: "GitHub",
     icon: Github,
     href: "https://github.com/MohanishGunda",
     label: "/MohanishGunda",
+    color: "hover:border-foreground hover:text-foreground",
   },
 ];
 
@@ -47,7 +65,7 @@ export const Contact = () => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     toast({
-      title: "Message sent!",
+      title: "Message sent! 🎉",
       description: "Thank you for reaching out. I'll get back to you soon!",
     });
 
@@ -59,6 +77,7 @@ export const Contact = () => {
     <section id="contact" className="py-24 lg:py-32 relative overflow-hidden">
       {/* Background */}
       <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-secondary/50 to-transparent pointer-events-none" />
+      <div className="absolute top-1/4 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="section-container relative z-10" ref={ref}>
         {/* Section Header */}
@@ -68,10 +87,18 @@ export const Contact = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <p className="text-primary font-medium mb-3">Get in touch</p>
-          <h2 className="section-title mb-4">Let's Connect</h2>
+          <motion.span
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : {}}
+            className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4"
+          >
+            Contact
+          </motion.span>
+          <h2 className="section-title mb-4">
+            Let's <span className="gradient-text">Connect</span>
+          </h2>
           <p className="section-subtitle mx-auto">
-            Have a project in mind or just want to say hi? I'd love to hear from you!
+            Have a project in mind or just want to chat? I'd love to hear from you!
           </p>
         </motion.div>
 
@@ -84,23 +111,37 @@ export const Contact = () => {
             className="lg:col-span-2 space-y-8"
           >
             <div>
-              <h3 className="text-xl font-semibold mb-4 font-display">Contact Info</h3>
-              <p className="text-muted-foreground mb-6">
-                Feel free to reach out through any of these channels. I'm always open to discussing
-                new projects, creative ideas, or opportunities.
+              <h3 className="text-xl font-semibold mb-4 font-display">Get in Touch</h3>
+              <p className="text-muted-foreground">
+                I'm always open to discussing new projects, creative ideas, or opportunities 
+                to be part of your vision.
               </p>
             </div>
 
-            {/* Location */}
-            <div className="flex items-center gap-4 text-muted-foreground">
-              <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
-                <MapPin className="h-5 w-5" />
-              </div>
-              <span>VIT Amaravati, Andhra Pradesh, India</span>
+            {/* Quick Info */}
+            <div className="space-y-3">
+              {contactInfo.map((info, index) => (
+                <motion.div
+                  key={info.label}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={isInView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ delay: 0.3 + index * 0.1 }}
+                  className="flex items-center gap-3 text-muted-foreground"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center">
+                    <info.icon className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-muted-foreground">{info.label}</p>
+                    <p className="text-sm font-medium text-foreground">{info.value}</p>
+                  </div>
+                </motion.div>
+              ))}
             </div>
 
             {/* Social Links */}
             <div className="space-y-3">
+              <h4 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Connect</h4>
               {socialLinks.map((link, index) => (
                 <motion.a
                   key={link.name}
@@ -109,20 +150,20 @@ export const Contact = () => {
                   rel="noopener noreferrer"
                   initial={{ opacity: 0, x: -20 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}
+                  transition={{ duration: 0.4, delay: 0.4 + index * 0.1 }}
                   whileHover={{ x: 5 }}
-                  className="flex items-center justify-between p-4 rounded-xl bg-card border border-border group card-hover"
+                  className={`flex items-center justify-between p-4 rounded-xl bg-card border border-border group transition-all ${link.color}`}
                 >
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                      <link.icon className="h-5 w-5 text-primary" />
+                    <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <link.icon className="h-5 w-5" />
                     </div>
                     <div>
                       <p className="font-medium text-sm">{link.name}</p>
                       <p className="text-xs text-muted-foreground">{link.label}</p>
                     </div>
                   </div>
-                  <ArrowUpRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                  <ArrowUpRight className="h-4 w-4 text-muted-foreground group-hover:text-inherit transition-colors" />
                 </motion.a>
               ))}
             </div>
@@ -144,11 +185,11 @@ export const Contact = () => {
                     </label>
                     <Input
                       id="name"
-                      placeholder="Your name"
+                      placeholder="John Doe"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       required
-                      className="bg-background"
+                      className="bg-background h-12"
                     />
                   </div>
                   <div>
@@ -158,11 +199,11 @@ export const Contact = () => {
                     <Input
                       id="email"
                       type="email"
-                      placeholder="your@email.com"
+                      placeholder="john@example.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       required
-                      className="bg-background"
+                      className="bg-background h-12"
                     />
                   </div>
                 </div>
@@ -183,11 +224,18 @@ export const Contact = () => {
                 <Button
                   type="submit"
                   size="lg"
-                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground h-12 text-base font-medium"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? (
-                    "Sending..."
+                    <span className="flex items-center gap-2">
+                      <motion.span
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                        className="w-4 h-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full"
+                      />
+                      Sending...
+                    </span>
                   ) : (
                     <>
                       Send Message

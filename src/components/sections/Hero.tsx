@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowDown, Github, Linkedin, Mail, Download } from "lucide-react";
+import { ArrowDown, Github, Linkedin, Mail, Download, Code2, Cpu, Sparkles } from "lucide-react";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
 import { Typewriter } from "../ui/Typewriter";
@@ -11,6 +11,12 @@ const roles = [
   "AI Explorer",
 ];
 
+const quickStats = [
+  { icon: Code2, label: "Projects", value: "3+" },
+  { icon: Cpu, label: "Technologies", value: "15+" },
+  { icon: Sparkles, label: "CGPA", value: "9.41" },
+];
+
 export const Hero = () => {
   const scrollToAbout = () => {
     document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
@@ -19,64 +25,63 @@ export const Hero = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Animated Background Gradient */}
-      <div className="absolute inset-0 bg-hero-pattern" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-secondary/20" />
       
-      {/* Grid Pattern Overlay */}
-      <div 
-        className="absolute inset-0 opacity-[0.015] dark:opacity-[0.03]"
-        style={{
-          backgroundImage: `linear-gradient(hsl(var(--foreground)) 1px, transparent 1px),
-                           linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)`,
-          backgroundSize: '60px 60px',
-        }}
-      />
-
-      {/* Animated Background Elements */}
+      {/* Animated orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
-          className="absolute top-1/4 left-1/4 w-72 h-72 bg-primary/5 rounded-full blur-3xl"
+          className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl"
           animate={{
             scale: [1, 1.2, 1],
             opacity: [0.3, 0.5, 0.3],
-            x: [0, 20, 0],
-            y: [0, -20, 0],
-          }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl"
-          animate={{
-            scale: [1.2, 1, 1.2],
-            opacity: [0.2, 0.4, 0.2],
-            x: [0, -30, 0],
-            y: [0, 20, 0],
+            x: [0, 30, 0],
+            y: [0, -30, 0],
           }}
           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
         />
         <motion.div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/3 rounded-full blur-3xl"
+          className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-accent/8 rounded-full blur-3xl"
           animate={{
-            scale: [1, 1.1, 1],
-            opacity: [0.1, 0.2, 0.1],
+            scale: [1.2, 1, 1.2],
+            opacity: [0.2, 0.4, 0.2],
+            x: [0, -40, 0],
+            y: [0, 30, 0],
           }}
           transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
         />
+        <motion.div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-primary/5 rounded-full blur-3xl"
+          animate={{
+            scale: [1, 1.15, 1],
+            opacity: [0.1, 0.15, 0.1],
+          }}
+          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+        />
       </div>
+
+      {/* Dot pattern */}
+      <div 
+        className="absolute inset-0 opacity-[0.02] dark:opacity-[0.04]"
+        style={{
+          backgroundImage: `radial-gradient(hsl(var(--foreground)) 1px, transparent 1px)`,
+          backgroundSize: '30px 30px',
+        }}
+      />
 
       <div className="section-container relative z-10">
         <div className="max-w-4xl mx-auto text-center">
-          {/* Greeting Badge */}
+          {/* Code badge */}
           <motion.div
             initial={{ opacity: 0, y: 20, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card border border-border mb-8 font-mono text-sm text-muted-foreground"
           >
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-            </span>
-            <span className="text-primary font-medium text-sm">Available for Opportunities</span>
+            <span className="text-primary">const</span>
+            <span className="text-foreground">developer</span>
+            <span className="text-muted-foreground">=</span>
+            <span className="text-accent">"Mohanish"</span>
+            <span className="text-muted-foreground">;</span>
           </motion.div>
 
           {/* Name */}
@@ -84,18 +89,11 @@ export const Hero = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-5xl sm:text-6xl lg:text-7xl font-bold font-display mb-6 tracking-tight"
+            className="text-5xl sm:text-6xl lg:text-8xl font-bold font-display mb-6 tracking-tight"
           >
-            Hi, I'm{" "}
-            <span className="gradient-text relative">
-              Mohanish
-              <motion.span
-                className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-primary to-accent rounded-full"
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: 1 }}
-                transition={{ duration: 0.8, delay: 0.8 }}
-              />
-            </span>
+            <span className="text-foreground">Mohanish</span>
+            <br />
+            <span className="gradient-text">Gunda</span>
           </motion.h1>
 
           {/* Typewriter Role */}
@@ -108,45 +106,44 @@ export const Hero = () => {
             <Typewriter words={roles} className="text-foreground font-medium" />
           </motion.div>
 
-          {/* Badges */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="flex flex-wrap items-center justify-center gap-3 mb-8"
-          >
-            <motion.span 
-              whileHover={{ scale: 1.05 }}
-              className="px-4 py-2 rounded-full bg-secondary text-secondary-foreground text-sm font-medium border border-border"
-            >
-              🎓 ECE @ VIT Amaravati
-            </motion.span>
-            <motion.span 
-              whileHover={{ scale: 1.05 }}
-              className="px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium border border-primary/20"
-            >
-              ⭐ CGPA: 9.41
-            </motion.span>
-            <motion.span 
-              whileHover={{ scale: 1.05 }}
-              className="px-4 py-2 rounded-full bg-accent/10 text-accent text-sm font-medium border border-accent/20"
-            >
-              📅 2023 - 2027
-            </motion.span>
-          </motion.div>
-
           {/* Description */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.7 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
             className="text-lg text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed"
           >
-            Crafting innovative solutions at the intersection of{" "}
-            <span className="text-foreground font-medium">hardware</span> and{" "}
-            <span className="text-foreground font-medium">software</span>. From embedded systems 
-            to full-stack web apps, I love turning ideas into reality.
+            Electronics & Communication Engineering student at{" "}
+            <span className="text-primary font-medium">VIT Amaravati</span>. 
+            Crafting innovative solutions at the intersection of hardware and software.
           </motion.p>
+
+          {/* Quick Stats */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.65 }}
+            className="flex flex-wrap justify-center gap-6 mb-10"
+          >
+            {quickStats.map((stat, index) => (
+              <motion.div
+                key={stat.label}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.7 + index * 0.1 }}
+                whileHover={{ scale: 1.05, y: -2 }}
+                className="flex items-center gap-3 px-5 py-3 rounded-xl bg-card/50 border border-border backdrop-blur-sm"
+              >
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <stat.icon className="w-5 h-5 text-primary" />
+                </div>
+                <div className="text-left">
+                  <p className="text-2xl font-bold text-foreground">{stat.value}</p>
+                  <p className="text-xs text-muted-foreground">{stat.label}</p>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
 
           {/* CTAs */}
           <motion.div
@@ -156,26 +153,19 @@ export const Hero = () => {
             className="flex flex-wrap items-center justify-center gap-4 mb-12"
           >
             <Link to="/resume">
-              <Button size="lg" className="group bg-primary hover:bg-primary/90 text-primary-foreground px-8 relative overflow-hidden">
-                <span className="relative z-10 flex items-center gap-2">
-                  View Resume
-                  <motion.span
-                    animate={{ x: [0, 4, 0] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                  >
-                    →
-                  </motion.span>
-                </span>
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-primary to-accent"
-                  initial={{ x: "100%" }}
-                  whileHover={{ x: 0 }}
-                  transition={{ duration: 0.3 }}
-                />
+              <Button size="lg" className="group bg-primary hover:bg-primary/90 text-primary-foreground px-8 h-12 text-base font-medium">
+                View Resume
+                <motion.span
+                  className="ml-2"
+                  animate={{ x: [0, 4, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                >
+                  →
+                </motion.span>
               </Button>
             </Link>
             <a href="/Mohanish_Resume.pdf" download>
-              <Button size="lg" variant="outline" className="gap-2 px-8">
+              <Button size="lg" variant="outline" className="gap-2 px-8 h-12 text-base font-medium border-2">
                 <Download className="h-4 w-4" />
                 Download CV
               </Button>
@@ -204,7 +194,7 @@ export const Hero = () => {
                 transition={{ delay: 1.1 + index * 0.1 }}
                 whileHover={{ scale: 1.15, y: -3 }}
                 whileTap={{ scale: 0.95 }}
-                className="p-3 rounded-full bg-secondary hover:bg-primary/10 text-muted-foreground hover:text-primary transition-all duration-300 border border-transparent hover:border-primary/20"
+                className="p-3 rounded-xl bg-card border border-border text-muted-foreground hover:text-primary hover:border-primary/50 transition-all duration-300"
               >
                 <social.icon className="h-5 w-5" />
               </motion.a>
@@ -225,10 +215,10 @@ export const Hero = () => {
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             className="flex flex-col items-center gap-2"
           >
-            <span className="text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity">
-              Scroll to explore
+            <span className="text-xs font-medium uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
+              Explore
             </span>
-            <ArrowDown className="h-6 w-6" />
+            <ArrowDown className="h-5 w-5" />
           </motion.div>
         </motion.button>
       </div>

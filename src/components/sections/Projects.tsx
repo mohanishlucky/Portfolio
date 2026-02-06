@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef } from "react";
-import { ExternalLink, Github, Cpu, Globe, Heart } from "lucide-react";
+import { useRef, useState } from "react";
+import { ExternalLink, Cpu, Globe, Heart, Calendar, ArrowRight } from "lucide-react";
 import { Button } from "../ui/button";
 
 const projects = [
@@ -19,7 +19,9 @@ const projects = [
       "Doctor-ready health summary reports",
     ],
     tech: ["STM32", "Edge AI", "IoT", "Health Sensors"],
-    color: "primary",
+    gradient: "from-rose-500/20 to-pink-500/20",
+    iconBg: "bg-rose-500/10",
+    iconColor: "text-rose-500",
   },
   {
     title: "Smart Home Automation System",
@@ -35,7 +37,9 @@ const projects = [
       "Web interface for remote operation",
     ],
     tech: ["ESP32", "IoT", "Sensors", "Web Interface"],
-    color: "accent",
+    gradient: "from-blue-500/20 to-cyan-500/20",
+    iconBg: "bg-blue-500/10",
+    iconColor: "text-blue-500",
   },
   {
     title: "Room Pe",
@@ -51,13 +55,16 @@ const projects = [
       "Deployed on Render",
     ],
     tech: ["Node.js", "Express", "MongoDB", "EJS", "Cloudinary"],
-    color: "primary",
+    gradient: "from-emerald-500/20 to-teal-500/20",
+    iconBg: "bg-emerald-500/10",
+    iconColor: "text-emerald-500",
   },
 ];
 
 export const Projects = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
     <section id="projects" className="py-24 lg:py-32 relative overflow-hidden">
@@ -72,67 +79,83 @@ export const Projects = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <p className="text-primary font-medium mb-3">What I've built</p>
-          <h2 className="section-title mb-4">Featured Projects</h2>
-          <div className="w-20 h-1 bg-primary/30 mx-auto rounded-full" />
+          <motion.span
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : {}}
+            className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4"
+          >
+            Portfolio
+          </motion.span>
+          <h2 className="section-title mb-4">
+            Featured <span className="gradient-text">Projects</span>
+          </h2>
+          <p className="section-subtitle mx-auto">
+            Innovative solutions combining hardware expertise with modern software
+          </p>
         </motion.div>
 
         {/* Projects Grid */}
-        <div className="space-y-8 lg:space-y-12">
+        <div className="grid lg:grid-cols-3 gap-6">
           {projects.map((project, index) => (
             <motion.div
               key={project.title}
               initial={{ opacity: 0, y: 40 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.2 + index * 0.15 }}
-              className={`flex flex-col ${
-                index % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"
-              } gap-8 items-center`}
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
+              className="group relative"
             >
-              {/* Project Visual */}
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                className="w-full lg:w-1/2 aspect-video rounded-2xl bg-gradient-to-br from-primary/10 via-card to-accent/10 border border-border flex items-center justify-center relative overflow-hidden group"
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <motion.div
-                  whileHover={{ rotate: 5, scale: 1.1 }}
-                  className="w-24 h-24 rounded-2xl bg-primary/10 flex items-center justify-center"
-                >
-                  <project.icon className="w-12 h-12 text-primary" />
-                </motion.div>
-                <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-card/80 backdrop-blur-sm text-xs font-medium border border-border">
-                  {project.year}
-                </div>
-              </motion.div>
+              <div className="h-full p-6 rounded-2xl bg-card border border-border transition-all duration-500 hover:border-primary/30 hover:shadow-xl relative overflow-hidden">
+                {/* Gradient Background on Hover */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                
+                {/* Content */}
+                <div className="relative z-10">
+                  {/* Header */}
+                  <div className="flex items-start justify-between mb-4">
+                    <div className={`w-12 h-12 rounded-xl ${project.iconBg} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+                      <project.icon className={`h-6 w-6 ${project.iconColor}`} />
+                    </div>
+                    <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                      <Calendar className="h-3 w-3" />
+                      {project.year}
+                    </div>
+                  </div>
 
-              {/* Project Content */}
-              <div className="w-full lg:w-1/2 space-y-4">
-                <div className="flex items-center gap-3 flex-wrap">
-                  <span className="text-xs font-medium text-primary uppercase tracking-wider">
+                  {/* Category */}
+                  <p className="text-xs font-medium text-primary uppercase tracking-wider mb-2">
                     {project.category}
-                  </span>
-                </div>
-                <h3 className="text-2xl lg:text-3xl font-bold font-display">{project.title}</h3>
-                <p className="text-muted-foreground leading-relaxed">{project.description}</p>
+                  </p>
 
-                {/* Highlights */}
-                <ul className="space-y-2 py-2">
-                  {project.highlights.map((highlight) => (
-                    <li key={highlight} className="flex items-start gap-2 text-sm text-muted-foreground">
-                      <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
-                      {highlight}
-                    </li>
-                  ))}
-                </ul>
+                  {/* Title */}
+                  <h3 className="text-xl font-bold mb-3 line-clamp-2 group-hover:text-primary transition-colors">
+                    {project.title}
+                  </h3>
 
-                {/* Tech Stack */}
-                <div className="flex flex-wrap gap-2 pt-2">
-                  {project.tech.map((tech) => (
-                    <span key={tech} className="tech-badge">
-                      {tech}
-                    </span>
-                  ))}
+                  {/* Description */}
+                  <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
+                    {project.description}
+                  </p>
+
+                  {/* Highlights */}
+                  <ul className="space-y-1.5 mb-4">
+                    {project.highlights.slice(0, 2).map((highlight) => (
+                      <li key={highlight} className="flex items-start gap-2 text-xs text-muted-foreground">
+                        <ArrowRight className="h-3 w-3 mt-0.5 text-primary flex-shrink-0" />
+                        <span className="line-clamp-1">{highlight}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* Tech Stack */}
+                  <div className="flex flex-wrap gap-1.5">
+                    {project.tech.map((tech) => (
+                      <span key={tech} className="tech-badge text-xs">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
             </motion.div>
